@@ -1,23 +1,25 @@
 from django.contrib import admin
 from django.urls import path
-from .views import show_about
-from .views import show_home_page
-from .views import show_article
-from .views import add_comment
-from .views import create_article
-from .views import update_article
-from .views import delete_article
-from .views import list_topics
-from .views import subscribe_to_topic
-from .views import unsubscribe_from_topic
-from .views import user_profile
-from .views import set_password
-from .views import set_userdata
-from .views import deactivate_account
-from .views import register_user
-from .views import user_login
-from .views import user_logout
-from .views import show_date
+from .views import (
+    show_about,
+    show_home_page,
+    show_article,
+    add_comment,
+    create_article,
+    update_article,
+    delete_article,
+    list_topics,
+    subscribe_to_topic,
+    unsubscribe_from_topic,
+    user_profile,
+    set_password,
+    set_userdata,
+    deactivate_account,
+    register_user,
+    user_login,
+    user_logout,
+    show_date
+)
 
 
 
