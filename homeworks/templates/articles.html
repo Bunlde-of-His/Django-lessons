@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h2>Recent Articles</h2>
+
+    <div class="article-block">
+            <div class="article">
+                <h2>Mitosis</h2>
+                <p>In cell biology, mitosis (/maɪˈtoʊsɪs/) is a part of the cell cycle in which replicated</p>
+                <p>chromosomes are separated into two new nuclei. Cell division by mitosis gives rise to</p>
+                <p> genetically identical cells in which the total number of chromosomes is maintained.</p>
+                <p><a href="{% url 'show_full_articles' %}">Read more</a></p>
+                <p>Comments: No recent comments...</p>
+            </div>
+    </div>
+
+    <div class="article-block">
+        <!-- Вторий блок статей -->
+        {% for article in articles %}
+            <div class="article">
+                <h3><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></h3>
+                <p>{{ article.content|truncatechars:50 }}</p>
+                <p>Created on: {{ article.created_on }}</p>
+                <p>Related Topics:
+                    {% for topic in article.topics.all %}
+                        <a href="{% url 'topic_articles' topic.slug %}">{{ topic.name }}</a>
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+                <p>Comments: {{ article.comments.count }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="article-block">
+        <!-- Третій блок статей -->
+        {% for article in articles %}
+            <div class="article">
+                <h3><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></h3>
+                <p>{{ article.content|truncatechars:50 }}</p>
+                <p>Created on: {{ article.created_on }}</p>
+                <p>Related Topics:
+                    {% for topic in article.topics.all %}
+                        <a href="{% url 'topic_articles' topic.slug %}">{{ topic.name }}</a>
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+                <p>Comments: {{ article.comments.count }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+ 

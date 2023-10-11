@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} | Blog</title>
+    <style>
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bunde-of-His Blog</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'show_articles' %}">Main</a></li>
+            <li><a href="{% url 'show_about' %}">About</a></li>
+            <li><a href="{% url 'show_topics' %}">Topics</a></li>
+            <li><a href="{% url 'show_register' %}">Register</a></li>
+            <li><a href="{% url 'show_login' %}">Login</a></li>
+            <li><a href="{% url 'show_create_article' %}">Create Article</a></li>
+        </ul>
+    </nav>
+    <main>
+        <p>Welcome to my Blog!</p>
+        <p>Please, click on "Main" to read some articles.</p>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
