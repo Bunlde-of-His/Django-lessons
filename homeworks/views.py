@@ -4,68 +4,36 @@ from django.shortcuts import render
 from datetime import datetime
 
 
-def show_base(request):
-    return render(request, template_name='base.html')
-
-
-def show_articles(request):
-    return render(request, template_name='articles.html')
-
-
-def show_full_articles(request):
-    return render(request, template_name='full_articles.html')
-
-
 def show_about(request):
     return render(request, template_name='about.html')
 
 
-def show_topics(request):
-    return render(request, template_name='topics.html')
-
-
-def show_register(request):
-    return render(request, template_name='register.html')
-
-
-def show_login(request):
-    return render(request, template_name='login.html')
-
-
-def show_create_article(request):
-    return render(request, template_name='create_article.html')
-
-
-def show_about(request) -> HttpResponse:
-    return HttpResponse("About text")
-
-
 def show_home_page(request):
-    return HttpResponse("This is homepage")
+    return render(request, template_name='base.html')
 
 
-def show_article(request: HttpRequest, article) -> HttpResponse:
-    return HttpResponse(f"Article text{article = }")
+def show_article(request, article_id):
+    return render(request, template_name='articles.html')
 
 
-def add_comment(request, article) -> HttpResponse:
+def add_comment(request, article_id) -> HttpResponse:
     return HttpResponse("Add comment here")
 
 
-def create_article(request) -> HttpResponse:
-    return HttpResponse("Article create")
+def create_article(request):
+    return render(request, template_name='create_article.html')
 
 
-def update_article(request, article) -> HttpResponse:
+def update_article(request, article_id) -> HttpResponse:
     return HttpResponse("Article update")
 
 
-def delete_article(request, article) -> HttpResponse:
+def delete_article(request, article_id) -> HttpResponse:
     return HttpResponse("Article delete")
 
 
-def list_topics(request) -> HttpResponse:
-    return HttpResponse("Topics list")
+def list_topics(request):
+    return render(request, template_name='topics.html')
 
 
 def subscribe_to_topic(request, topic) -> HttpResponse:
@@ -92,12 +60,12 @@ def deactivate_account(request) -> HttpResponse:
     return HttpResponse("Account deactivate")
 
 
-def register_user(request) -> HttpResponse:
-    return HttpResponse("Register user")
+def register_user(request):
+    return render(request, template_name='register.html')
 
 
-def user_login(request) -> HttpResponse:
-    return HttpResponse("User login")
+def user_login(request):
+    return render(request, template_name='login.html')
 
 
 def user_logout(request) -> HttpResponse:

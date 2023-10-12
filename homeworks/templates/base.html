@@ -18,16 +18,16 @@
 </head>
 <body>
     <header>
-        <h1>Bunde-of-His Blog</h1>
+        <h1>Bundle-of-His Blog</h1>
     </header>
     <nav>
         <ul>
-            <li><a href="{% url 'show_articles' %}">Main</a></li>
+            <li><a href="{% url 'show_article' 1 %}">Main</a></li>
             <li><a href="{% url 'show_about' %}">About</a></li>
-            <li><a href="{% url 'show_topics' %}">Topics</a></li>
-            <li><a href="{% url 'show_register' %}">Register</a></li>
-            <li><a href="{% url 'show_login' %}">Login</a></li>
-            <li><a href="{% url 'show_create_article' %}">Create Article</a></li>
+            <li><a href="{% url 'list_topics' %}">Topics</a></li>
+            <li><a href="{% url 'register_user' %}">Register</a></li>
+            <li><a href="{% url 'user_login' %}">Login</a></li>
+            <li><a href="{% url 'create_article' %}">Create Article</a></li>
         </ul>
     </nav>
     <main>
