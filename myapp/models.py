@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Topic(models.Model):
     title = models.CharField(max_length=64)
     description = models.CharField(max_length=255)
-    subscribers = models.ManyToManyField(User)
+    subscribers = models.ManyToManyField(User, through='Preference')
 
     def __str__(self):
         return self.title
@@ -30,9 +30,13 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, models.DO_NOTHING)
 
+
     def __str__(self):
         return self.message
 
 
-
+class Preference(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    is_notified = models.BooleanField(default=False)
 
