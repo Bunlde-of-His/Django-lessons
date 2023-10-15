@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.urls import path
 from .views import (
     show_about,
@@ -22,6 +23,7 @@ from .views import (
 
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('about/', show_about, name="show_about"),
     path('', show_home_page, name="show_home_page"),
     path('<int:article_id>/', show_article, name="show_article"),
