@@ -22,12 +22,12 @@
     </header>
     <nav>
         <ul>
-            <li><a href="{% url 'show_article' 1 %}">Main</a></li>
-            <li><a href="{% url 'show_about' %}">About</a></li>
-            <li><a href="{% url 'list_topics' %}">Topics</a></li>
-            <li><a href="{% url 'register_user' %}">Register</a></li>
-            <li><a href="{% url 'user_login' %}">Login</a></li>
-            <li><a href="{% url 'create_article' %}">Create Article</a></li>
+            <li><a href="{% url 'myapp:articles' %}">Main</a></li>
+            <li><a href="{% url 'myapp:show_about' %}">About</a></li>
+            <li><a href="{% url 'myapp:list_topics' %}">Topics</a></li>
+            <li><a href="{% url 'myapp:register_user' %}">Register</a></li>
+            <li><a href="{% url 'myapp:user_login' %}">Login</a></li>
+            <li><a href="{% url 'myapp:create_article' %}">Create Article</a></li>
         </ul>
     </nav>
     <main>
