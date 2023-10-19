@@ -16,7 +16,7 @@ def show_home_page(request):
 
 def show_article(request, article_id):
     article = get_object_or_404(Article, pk=article_id,)
-    comments = Comment.objects.filter(article=article_id)
+    comments = article.comments.all()
     return render(request, template_name='myapp/detail.html', context={'article': article, 'comments': comments})
 
 
