@@ -1,0 +1,15 @@
+{% extends "myapp/base.html" %}
+
+{% block title %}Topics{% endblock %}
+
+{% block content %}
+<ul>
+    {% for topic in topics %}
+    <h2>
+        <a href="{{ topic.get_absolute_url }}">
+            {{ topic.title }}
+        </a>
+    </h2>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "myapp/base.html" %}
+
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ article.title }}</h1>
+    <p class="date">
+        Published {{ article.created }} by {{ article.author }}
+        <br>
+        Topic:
+        {% for topic in article.topics.all %}
+            {{ topic.title }}
+        {% endfor %}
+        <br/>
+    </p>
+    <p>
+        {{ article.content }}
+    </p>
+{% for comment in comments %}
+<p>
+    <br>
+    {{comment.created}}
+    <br/>
+    {{comment.author}}:
+    {{comment.message}}
+</p>
+
+{% endfor %}
+{% endblock %}

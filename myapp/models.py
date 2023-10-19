@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Topic(models.Model):
@@ -10,6 +11,13 @@ class Topic(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        article = self.article_set.first()
+        if article:
+            return article.get_absolute_url()
+
+        return reverse('myapp:list_topics')
+
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
@@ -19,17 +27,19 @@ class Article(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     topics = models.ManyToManyField(Topic)
 
-
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('myapp:show_article',
+                       args=[str(self.pk)])
 
 
 class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     message = models.CharField(max_length=512)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    article = models.ForeignKey(Article, models.DO_NOTHING)
-
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    article = models.ForeignKey(Article, models.DO_NOTHING, related_name='comments')
 
     def __str__(self):
         return self.message
@@ -39,4 +49,3 @@ class Preference(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     is_notified = models.BooleanField(default=False)
-
