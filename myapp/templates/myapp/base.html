@@ -24,7 +24,6 @@
         <ul>
             <li><a href="{% url 'myapp:articles' %}">Main</a></li>
             <li><a href="{% url 'myapp:show_about' %}">About</a></li>
-            <li><a href="{% url 'myapp:list_topics' %}">Topics</a></li>
             <li><a href="{% url 'myapp:register_user' %}">Register</a></li>
             <li><a href="{% url 'myapp:user_login' %}">Login</a></li>
             <li><a href="{% url 'myapp:create_article' %}">Create Article</a></li>
@@ -32,8 +31,8 @@
     </nav>
     <main>
         <p>Welcome to my Blog!</p>
-        <p>Please, click on "Main" to read some articles.</p>
         {% block content %}{% endblock %}
     </main>
 </body>
 </html>
+
