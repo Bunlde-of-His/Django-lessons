@@ -1,8 +1,14 @@
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from datetime import datetime
-from myapp.models import Article, Comment, Topic
+from myapp.models import Article, Topic, Comment
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate
+from .forms import AuthenticationForm, CustomUserCreationForm
+from django.contrib.auth import login
+from .forms import ArticleForm
+from .forms import CommentForm
 
 
 def show_about(request):
@@ -10,22 +16,73 @@ def show_about(request):
 
 
 def show_home_page(request):
+    topics = Topic.objects.all()
     articles = Article.objects.all()
-    return render(request, template_name='myapp/articles.html', context={'articles': articles})
+    return render(request, template_name='myapp/articles.html', context={'topics': topics, 'articles': articles})
+
+
+def filtered_articles(request, topic_id):
+    selected_topic = Topic.objects.get(pk=topic_id)
+    articles = Article.objects.filter(topics=selected_topic)
+    topics = Topic.objects.all()
+    return render(request, 'myapp/articles.html', {'articles': articles, 'topics': topics})
 
 
 def show_article(request, article_id):
-    article = get_object_or_404(Article, pk=article_id,)
-    comments = article.comments.all()
-    return render(request, template_name='myapp/detail.html', context={'article': article, 'comments': comments})
+    article = get_object_or_404(Article, pk=article_id)
+    comments = Comment.objects.filter(article=article)
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.author = request.user
+            comment.article = article
+            comment.save()
+            return redirect('myapp:show_article', article_id=article_id)
+    else:
+        comment_form = CommentForm()
+
+    return render(request, 'myapp/detail.html', {
+        'article': article,
+        'comments': comments,
+        'comment_form': comment_form
+    })
 
 
-def add_comment(request, article_id) -> HttpResponse:
-    return HttpResponse("Add comment here")
+def add_comment(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.article = article
+            comment.author = request.user
+            comment.save()
+            return redirect('myapp:show_article', article_id=article.id)
+    else:
+        form = CommentForm()
+
+    return render(request, 'myapp/detail.html', {'form': form, 'article': article})
 
 
 def create_article(request):
-    return render(request, template_name='myapp/create_article.html')
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.author = request.user
+            article.save()
+
+            topic_ids = request.POST.getlist('topics')
+            article.topics.set(topic_ids)
+
+            return redirect('myapp:articles')
+    else:
+        form = ArticleForm()
+
+    return render(request, 'myapp/create_article.html', {'form': form})
 
 
 def update_article(request, article_id) -> HttpResponse:
@@ -34,11 +91,6 @@ def update_article(request, article_id) -> HttpResponse:
 
 def delete_article(request, article_id) -> HttpResponse:
     return HttpResponse("Article delete")
-
-
-def list_topics(request):
-    topics = Topic.objects.all()
-    return render(request, template_name='myapp/topics.html',  context={'topics': topics})
 
 
 def subscribe_to_topic(request, topic) -> HttpResponse:
@@ -66,11 +118,29 @@ def deactivate_account(request) -> HttpResponse:
 
 
 def register_user(request):
-    return render(request, template_name='myapp/register.html')
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return HttpResponseRedirect('/')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'myapp/register.html', {'form': form})
 
 
 def user_login(request):
-    return render(request, template_name='myapp/login.html')
+    if request.method == 'POST':
+        form = AuthenticationForm(request.POST)
+        if form.is_valid():
+            login(request, form.user)
+            return HttpResponseRedirect('/')
+
+
+    else:
+        form = AuthenticationForm()
+
+    return render(request, 'myapp/login.html', {'form': form})
 
 
 def user_logout(request) -> HttpResponse:

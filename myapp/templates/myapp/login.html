@@ -3,7 +3,11 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <h2>Login</h2>
+    {% if user.is_authenticated %}
+        <h2>Welcome, {{ user.username }}!</h2>
+        <a href="{% url 'myapp:logout' %}">Logout</a>
+    {% else %}
+        <h2>Login</h2>
         <form method="post">
             {% csrf_token %}
             <label for="username">Username:</label>
@@ -14,4 +18,6 @@
             <br>
             <input type="submit" value="Login">
         </form>
+    {% endif %}
 {% endblock %}
+

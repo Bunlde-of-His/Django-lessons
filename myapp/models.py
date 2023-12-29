@@ -11,13 +11,6 @@ class Topic(models.Model):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
-        article = self.article_set.first()
-        if article:
-            return article.get_absolute_url()
-
-        return reverse('myapp:list_topics')
-
 
 class Article(models.Model):
     title = models.CharField(max_length=255)

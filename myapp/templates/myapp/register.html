@@ -3,17 +3,22 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-    <h2>Register</h2>
-        <form method="post">
-            {% csrf_token %}
-            <label for="username">Username: <input type="text" id="username" name="username" required></label>
-            <br>
-            <label for="password">Password: <input type="password" id="password" name="password" required></label>
-            <br>
-            <label for="confirm_password">Confirm Password: <input type="password" id="confirm_password" name="confirm_password" required></label>
-            <br>
-            <input type="submit" value="Register">
-        </form>
-
-
+  <h2>Register</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.username.label_tag }}<br>
+    {{ form.username }}<br>
+    {{ form.email.label_tag }}<br>
+    {{ form.email }}<br>
+    {{ form.first_name.label_tag }}<br>
+    {{ form.first_name }}<br>
+    {{ form.last_name.label_tag }}<br>
+    {{ form.last_name }}<br>
+    {{ form.password1.label_tag }}<br>
+    {{ form.password1 }}<br>
+    {{ form.password2.label_tag }}<br>
+    {{ form.password2 }}<br>
+    <button type="submit">Register</button>
+</form>
+  <p>Already have an account? <a href="{% url 'myapp:user_login' %}">Log in</a></p>
 {% endblock %}
